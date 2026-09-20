@@ -128,6 +128,9 @@ public static class GatewaySecurityExtensions
             .Validate(x => !string.IsNullOrWhiteSpace(x.Authority), "Authentication:Keycloak:Authority is required.")
             .Validate(x => !string.IsNullOrWhiteSpace(x.ClientId), "Authentication:Keycloak:ClientId is required.")
             .Validate(x => !string.IsNullOrWhiteSpace(x.ClientSecret), "Authentication:Keycloak:ClientSecret is required.")
+            .Validate(x => !string.IsNullOrWhiteSpace(x.CallbackPath), "Authentication:Keycloak:CallbackPath is required.")
+            .Validate(x => !string.IsNullOrWhiteSpace(x.SignedOutCallbackPath), "Authentication:Keycloak:SignedOutCallbackPath is required.")
+            .Validate(x => !string.IsNullOrWhiteSpace(x.ChangePasswordAction), "Authentication:Keycloak:ChangePasswordAction is required.")
             .Validate(x => x.RefreshBeforeExpiry > TimeSpan.Zero, "Authentication:Keycloak:RefreshBeforeExpiry must be positive.")
             .ValidateOnStart();
         services.AddOptions<GatewayAntiforgeryOptions>().BindConfiguration(GatewayAntiforgeryOptions.SectionName)

@@ -6,12 +6,12 @@ using Microsoft.Extensions.Options;
 using TeamGateway.Api.Authentication;
 using TeamGateway.Api.Options;
 
-namespace TeamGateway.Api.Controllers;
+namespace TeamGateway.Api.Controllers.V1;
 
 [Route("api/v{version:apiVersion}/auth")]
 [ApiVersion("1.0")]
 [ApiController]
-public sealed class AuthenticationController : ControllerBase
+public class AuthenticationController : ControllerBase
 {
     private readonly IAntiforgery _antiforgery;
     private readonly GatewayAntiforgeryOptions _antiforgeryOptions;
@@ -28,20 +28,43 @@ public sealed class AuthenticationController : ControllerBase
     }
 
     [HttpGet("login")]
-    public IActionResult Login([FromQuery] string? returnUrl = "/")
+    public IActionResult Login([FromQuery] string returnUrl)
     {
-        var safeReturnUrl = IsLocalUrl(returnUrl) ? returnUrl! : "/";
-        var frontendBaseUrl = _configuration["FrontendBaseUrl"]
-            ?? throw new InvalidOperationException("FrontendBaseUrl is required.");
+        var redirectUri = GetSafeReturnUrl(returnUrl);
 
-        return Challenge(new AuthenticationProperties
+        return Challenge(
+            new AuthenticationProperties
+            {
+                RedirectUri = redirectUri
+            },
+            AuthenticationSchemes.Keycloak
+        );
+    }
+
+    private string GetSafeReturnUrl(string returnUrl)
+    {
+        if (!Uri.TryCreate(returnUrl, UriKind.Absolute, out var uri))
         {
-            RedirectUri = $"{frontendBaseUrl.TrimEnd('/')}{safeReturnUrl}"
-        }, AuthenticationSchemes.Keycloak);
+            throw new ArgumentException("Invalid returnUrl", nameof(returnUrl));
+        }
+
+        var allowedOrigins = _configuration
+            .GetSection("Authentication:AllowedRedirectOrigins")
+            .Get<string[]>()
+            ?? [];
+
+        var origin = $"{uri.Scheme}://{uri.Authority}";
+
+        return allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase)
+            ? uri.ToString()
+            : throw new ArgumentException("ReturnUrl is not allowed", nameof(returnUrl));
     }
 
     [HttpGet("access-denied")]
-    public IActionResult AccessDenied() => Forbid();
+    public IActionResult AccessDenied()
+    {
+        return Forbid();
+    }
 
     [Authorize]
     [HttpGet("csrf")]
@@ -70,8 +93,4 @@ public sealed class AuthenticationController : ControllerBase
         await HttpContext.SignOutAsync(AuthenticationSchemes.ApplicationCookie);
         return NoContent();
     }
-
-    private static bool IsLocalUrl(string? url) => !string.IsNullOrWhiteSpace(url)
-        && url[0] == '/'
-        && (url.Length == 1 || (url[1] != '/' && url[1] != '\\'));
 }
