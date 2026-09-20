@@ -1,0 +1,36 @@
+.idea/
+*.sln.iml
+
+Logs/
+logs/
+
+.vscode/
+
+# .NET build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Handle malformed Windows-style directory names on Linux
+bin\*/
+obj\*/
+**/bin\*/
+**/obj\*/
+
+.vs/
+*.user
+*.suo
+
+TestResults/
+coverage/
+
+appsettings.Development.json
+appsettings.Dev.json
+appsettings.Test.json
+appsettings.Staging.json
+appsettings.Production.json
+
+.env
+.env.*
+!.env.example

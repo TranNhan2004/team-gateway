@@ -1,0 +1,6 @@
+@TeamGateway.Api_HostAddress = http://localhost:5022
+
+GET {{TeamGateway.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
