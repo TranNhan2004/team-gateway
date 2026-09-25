@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Options;
-using TeamGateway.Api.Authentication;
+using TeamGateway.Api.Constants;
 using TeamGateway.Api.Options;
 using TeamGateway.Api.Stores;
 

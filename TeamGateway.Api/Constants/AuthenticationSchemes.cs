@@ -1,4 +1,4 @@
-namespace TeamGateway.Api.Authentication;
+namespace TeamGateway.Api.Constants;
 
 public static class AuthenticationSchemes
 {

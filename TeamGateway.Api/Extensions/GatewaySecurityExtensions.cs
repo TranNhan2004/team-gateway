@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
-using TeamGateway.Api.Authentication;
+using TeamGateway.Api.Constants;
 using TeamGateway.Api.Options;
 using TeamGateway.Api.Services;
 using TeamGateway.Api.Stores;
