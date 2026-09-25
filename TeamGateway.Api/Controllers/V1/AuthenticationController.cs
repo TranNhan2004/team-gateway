@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
-using TeamGateway.Api.Authentication;
+using TeamGateway.Api.Constants;
 using TeamGateway.Api.Options;
 
 namespace TeamGateway.Api.Controllers.V1;
@@ -11,6 +12,7 @@ namespace TeamGateway.Api.Controllers.V1;
 [Route("api/v{version:apiVersion}/auth")]
 [ApiVersion("1.0")]
 [ApiController]
+[EnableRateLimiting(RateLimiterPolicies.Auth)]
 public class AuthenticationController : ControllerBase
 {
     private readonly IAntiforgery _antiforgery;
