@@ -24,7 +24,7 @@ public sealed class InternalJwtIssuer : IInternalJwtIssuer
     {
         _options = options.Value;
         var rsa = RSA.Create();
-        rsa.ImportFromPem(_options.PrivateKeyPem);
+        rsa.ImportFromPem(_options.PrivateKeyPemPath);
         _credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
     }
 
