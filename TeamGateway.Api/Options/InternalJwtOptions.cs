@@ -6,6 +6,6 @@ public sealed class InternalJwtOptions
 
     public string Issuer { get; init; } = null!;
     public string Audience { get; init; } = null!;
-    public string PrivateKeyPem { get; init; } = null!;
+    public string PrivateKeyPemPath { get; init; } = null!;
     public TimeSpan Lifetime { get; init; } = TimeSpan.FromMinutes(5);
 }

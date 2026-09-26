@@ -137,7 +137,7 @@ public static class GatewaySecurityExtensions
         services.AddOptions<InternalJwtOptions>().BindConfiguration(InternalJwtOptions.SectionName)
             .Validate(x => !string.IsNullOrWhiteSpace(x.Issuer), "InternalJwt:Issuer is required.")
             .Validate(x => !string.IsNullOrWhiteSpace(x.Audience), "InternalJwt:Audience is required.")
-            .Validate(x => !string.IsNullOrWhiteSpace(x.PrivateKeyPem), "InternalJwt:PrivateKeyPem is required.")
+            .Validate(x => !string.IsNullOrWhiteSpace(x.PrivateKeyPemPath), "InternalJwt:PrivateKeyPem is required.")
             .Validate(x => x.Lifetime > TimeSpan.Zero, "InternalJwt:Lifetime must be positive.")
             .ValidateOnStart();
     }
